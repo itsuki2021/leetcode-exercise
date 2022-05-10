@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 
+
 namespace bin_tree {
     using std::vector;
 
@@ -76,3 +77,48 @@ namespace bin_tree {
 }
 
 
+namespace trie {
+    using std::string;
+
+    auto constexpr MAX_CHILD = 26;  // maximum size of charset
+    auto constexpr MIN_CHAR = 'a';  // minimum char in charset
+
+    /**
+     * @brief Trie tree.
+     * 
+     */
+    class TrieNode {
+    private:
+        TrieNode* children[MAX_CHILD];
+        bool isWord;
+
+    public:
+        TrieNode();
+        ~TrieNode();
+
+        /**
+         * @brief Insert a new word.
+         * 
+         * @param word Input word
+         */
+        void insert(const string& word);
+
+        /**
+         * @brief Search a word in trie tree.
+         * 
+         * @param word      Input word
+         * @return true     Find word in tree
+         * @return false    Or not
+         */
+        bool search(const string& word);
+
+        /**
+         * @brief Search a prefix in trie tree.
+         * 
+         * @param prefix    Input prefix
+         * @return true     Find prefix in tree
+         * @return false    Or not
+         */
+        bool startsWith(const string& prefix);
+    };
+}

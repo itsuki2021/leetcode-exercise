@@ -199,3 +199,51 @@ namespace bin_tree {
     }
 }
 
+
+namespace trie {
+    TrieNode::TrieNode() {
+        isWord = false;
+        for (int i = 0; i < MAX_CHILD; ++i) children[i] = nullptr;
+    }
+
+    TrieNode::~TrieNode() {
+        for (int i = 0; i < MAX_CHILD; ++i)
+            if (children[i]) delete children[i];
+    }
+
+    void TrieNode::insert(const string& word) {
+        TrieNode* root = this;
+        int cur;
+        for (char c : word) {
+            cur = c - MIN_CHAR;
+            if (root->children[cur] == nullptr)
+                root->children[cur] = new TrieNode();
+            root = root->children[cur];
+        }
+        root->isWord = true;
+    }
+
+    bool TrieNode::search(const string& word) {
+        TrieNode* root = this;
+        int cur;
+        for (char c : word) {
+            cur = c - MIN_CHAR;
+            if (root->children[cur] == nullptr) return false;
+            root = root->children[cur];
+        }
+
+        return root->isWord;
+    }
+
+    bool TrieNode::startsWith(const string& prefix) {
+        TrieNode* root;
+        int cur;
+        for (char c : prefix) {
+            cur = c - MIN_CHAR;
+            if (root->children[cur] == nullptr) return false;
+            root = root->children[cur];
+        }
+
+        return true;
+    }
+}
