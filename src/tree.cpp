@@ -3,7 +3,7 @@
 #include <string>
 #include <stack>
 #include <math.h>
-#include <assert.h>
+
 
 namespace bin_tree {
     using std::deque;
@@ -113,7 +113,7 @@ namespace bin_tree {
         return ret;
     }
 
-    TreeNode* createTree(const vector<int>& nums) {
+    TreeNode* buildTree(const vector<int>& nums) {
         if (nums.empty()) return nullptr;
         
         deque<TreeNode*> list = {new TreeNode(nums[0])};
@@ -122,16 +122,18 @@ namespace bin_tree {
         TreeNode* newNode = nullptr;
         int i = 1;
         while (!list.empty()) {
-            try {
-                curNode = list.front();
-                list.pop_front();
-                if (curNode == nullptr) {
-                    // assert both left and right node is nullptr
-                    if (i < nums.size()) assert(nums[i++] == NULL_NODE);
-                    if (i < nums.size()) assert(nums[i++] == NULL_NODE);
-                    continue;
+            curNode = list.front();
+            list.pop_front();
+            if (curNode == nullptr) {
+                // assert both left and right node is nullptr
+                for (int _cnt = 0; _cnt < 2; ++_cnt) {
+                    if (i >= nums.size()) break;
+                    if (nums[i] != NULL_NODE) throw NodeException();
+                    list.push_back(nullptr);
+                    i++;
                 }
-
+            }
+            else {
                 if (i >= nums.size()) break;
                 newNode = nums[i] == NULL_NODE ? nullptr : new TreeNode(nums[i]);
                 curNode->left = newNode;
@@ -143,10 +145,6 @@ namespace bin_tree {
                 curNode->right = newNode;
                 list.push_back(newNode);
                 i++;
-            }
-            catch(const std::exception& e) {
-                cerr << "Failed to create TreeNode!" << endl;
-                throw e;
             }
         }
 

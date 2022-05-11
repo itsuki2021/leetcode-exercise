@@ -1,10 +1,12 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <exception>
 
 
 namespace bin_tree {
     using std::vector;
+    using std::exception;
 
     const int NULL_NODE = INT32_MIN;   // means null node
 
@@ -19,6 +21,13 @@ namespace bin_tree {
         TreeNode() : val(0), left(nullptr), right(nullptr) {}
         TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
         TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    };
+
+    class NodeException : public exception {
+        virtual const char*
+        what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW {
+            return "Invalid node, can not make a non-empty node be the children of a empty node.";
+        }
     };
 
     /**
@@ -59,7 +68,7 @@ namespace bin_tree {
      * @param nums BFS items, INT32_MIN in "nums" means null node
      * @return TreeNode root pointer
      */
-    TreeNode* createTree(const vector<int>& nums);
+    TreeNode* buildTree(const vector<int>& nums);
 
     /**
      * @brief Delete a Tree object.
