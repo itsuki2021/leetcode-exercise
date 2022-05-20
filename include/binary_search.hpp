@@ -13,6 +13,8 @@ namespace bin_search {
      */
     int search(const vector<int>& nums, int target) {
         int n = nums.size();
+        if (target < nums[0] || target > nums[n-1]) return -1;
+
         int le = 0, ri = n - 1;
         while (le <= ri) {
             int mid = le + (ri - le) / 2;
