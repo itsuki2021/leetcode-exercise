@@ -1,0 +1,35 @@
+[https://zhuanlan.zhihu.com/p/129373740]()
+
+
+> **输入** ：赋权有向图 ![[公式]](https://www.zhihu.com/equation?tex=G%3D%28V%2C%5C%2CE%2C%5C%2CW%29%2C%5Cquad+V%3D%5Cleft%5C%7Bv_1%2Cv_2%2C%5Cldots%2Cv_n%5Cright%5C%7D%2C%5Cquad+s%3A%3Dv_1) 。
+> **输出** ：从源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 到所有的 ![[公式]](https://www.zhihu.com/equation?tex=v_i%5Cin+V%5Csetminus%5C%7Bs%5C%7D) 的最短路径。
+> ![[公式]](https://www.zhihu.com/equation?tex=1.) 初始 ![[公式]](https://www.zhihu.com/equation?tex=S%3D%5Cleft%5C%7Bv_1%5Cright%5C%7D) ；
+> ![[公式]](https://www.zhihu.com/equation?tex=2.) 对于 ![[公式]](https://www.zhihu.com/equation?tex=v_i%5Cin+V-S) ，计算 ![[公式]](https://www.zhihu.com/equation?tex=%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D) ；
+> ![[公式]](https://www.zhihu.com/equation?tex=3.) 选择 ![[公式]](https://www.zhihu.com/equation?tex=%5Cmin_%7Bv_j+%5Cin+V%7D%5C%2C%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D) ，并将这个 ![[公式]](https://www.zhihu.com/equation?tex=v_j) 放进集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 中，更新 ![[公式]](https://www.zhihu.com/equation?tex=V-S) 中的顶点的 ![[公式]](https://www.zhihu.com/equation?tex=%5Cmathrm%7Bdist%7D) 值；
+> ![[公式]](https://www.zhihu.com/equation?tex=4.) 重复 ![[公式]](https://www.zhihu.com/equation?tex=1) ，直到 ![[公式]](https://www.zhihu.com/equation?tex=S%3DV) 。
+
+然后是Dijkstra 算法的伪码：
+
+![[公式]](https://www.zhihu.com/equation?tex=%5Cboxed%7B%5Clarge%5Cbegin%7Balign%2A%7D+%26%5Clarge%7B%5Cbm%7B%5Crm%7BAlgorithm%3ADijkstra%7D%7D%7D%5C%5C+%26%5C%5C+%26%5Cbm%7B%5Cmathrm%7BInput%3A%7D%7D%5Cmathrm%7BDirected%5C%2C%5C%2C+graph%5C%2C%5C%2C%7DG%3D%28V%2CE%2CW%29%5C%2C%5C%2C%5Cmathrm%7Bwith%5C%2C%5C%2C+weight%7D%5C%5C+%26%5C%5C+%26%5Cbm%7B%5Cmathrm%7BOutput%3A%7D%7D%5Cmathrm%7BAll%5C%2C%5C%2C+the%5C%2C%5C%2Cshortest%5C%2C%5C%2Cpaths%5C%2C%5C%2C+from%5C%2C%5C%2C+the%5C%2C%5C%2C+source%5C%2C%5C%2Cvertex%5C%2C%5C%2C%7Ds%5Cmathrm%7B%5C%2C%5C%2Cto%5C%2C%5C%2Cevery%5C%2C%5C%2Cvertex%5C%2C%5C%2C%7Dv_i%5Cin+V%5Csetminus%5Cleft%5C%7Bs%5Cright%5C%7D%5C%5C+%26%5C%5C+%261%3AS%5Cleftarrow+%5Cleft+%5C%7B+s+%5Cright+%5C%7D%5C%5C+%262%3A%5Cmathrm%7Bdist%7D%5Bs%2Cs%5D%5Cleftarrow+0%5C%5C+%263%3A%5Cbm%7B%5Cmathrm%7Bfor%7D%7D%5C%2C%5C%2C+v_i%5Cin+V-%5Cleft+%5C%7B+s+%5Cright+%5C%7D%5C%2C%5C%2C%5Cbm%7B%5Cmathrm%7Bdo%7D%7D%5C%5C+%264%3A%5Cquad%5C%2C%5C%2C+%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D%5Cleftarrow+w%28s%2Cv_i%29%5C%5C+%26%5Cquad+%5C%2C%5C%2C%5C%2C%5Cquad+%28%5Cmathrm%7Bwhen%5C%2C%5C%2C%7Dv_i%5C%2C%5C%2C%5Cmathrm%7Bnot%5C%2C%5C%2Cfound%7D%2C%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D%5Cleftarrow+%5Cinfty%29%5C%5C+%265%3A%5Cbm%7B%5Cmathrm%7Bwhile%7D%7D%5C%2C%5C%2CV-S%5Cne%5Cvarnothing+%5C%2C%5C%2C%5Cbm%7B%5Cmathrm%7Bdo%7D%7D%5C%5C+%266%3A%5Cquad%5C%2C%5C%2C%5C%2C%5C%2C+%5Cmathrm%7Bfind%5C%2C%5C%2C%7D%5Cmin_%7Bv_j%5Cin+V%7D%5C%2C%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D%5C%2C%5C%2C%5Cmathrm%7Bfrom%5C%2C%5C%2C+the%5C%2C%5C%2C+set%5C%2C%5C%2C%7DV-S%5C%5C+%267%3A%5Cquad%5C%2C%5C%2C%5C%2C%5C%2C+S%5Cleftarrow+S%5Ccup+%5Cleft%5C%7Bv_j%5Cright%5C%7D%5C%5C+%268%3A%5C%2C%5C%2C%5C%2C%5C%2C%5Cquad+%5Cbm%7B%5Cmathrm%7Bfor%5C%2C%5C%2C%7D%7Dv_i%5Cin+V-S%5C%2C%5C%2C%5Cbm%7B%5Cmathrm%7Bdo%7D%7D%5C%5C+%269%3A%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5Cquad%5Cquad+%5Cbm%7B%5Cmathrm%7Bif%5C%2C%5C%2C%7D%7D%5Cmathrm%7Bdist%7D%5Bs%2Cv_j%5D%2Bw_%7Bj%2Ci%7D%3C%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D%5C%2C%5C%2C%5Cbm%7B%5Cmathrm%7Bthen%7D%7D%5C%5C+%2610%3A%5C%2C%5C%2C%5C%2C%5C%2C%5C%2C%5Cquad%5Cquad%5Cquad+%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D%5Cleftarrow+%5Cmathrm%7Bdist%7D%5Bs%2Cv_j%5D%2Bw_%7Bj%2Ci%7D+%5Cend%7Balign%2A%7D%7D%5Ctag%7B10%7D)
+
+下面我们来解释一下这个伪码：
+
+![[公式]](https://www.zhihu.com/equation?tex=1%3A) 算法初始，将选择的源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 放进集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 中；
+
+![[公式]](https://www.zhihu.com/equation?tex=2%3A) 无自环的源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 到自己的最短路径为 ![[公式]](https://www.zhihu.com/equation?tex=0) ；
+
+![[公式]](https://www.zhihu.com/equation?tex=3%3A) 当顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 不在集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 中时（此时集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 中仍只有源点 ![[公式]](https://www.zhihu.com/equation?tex=s) ），开始进入循环；
+
+![[公式]](https://www.zhihu.com/equation?tex=4%3A) 将源点 ![[公式]](https://www.zhihu.com/equation?tex=+s) 与点 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 之间的权值赋给 ![[公式]](https://www.zhihu.com/equation?tex=%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D) 。由于是有向图，所以当源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 不指向任何其他集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 外的顶点时， ![[公式]](https://www.zhihu.com/equation?tex=%5Cmathrm%7Bdist%7D%5Bs%2Cv_i%5D%3D%5Cinfty) 。可以理解为**此时**从源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 出发，**暂时**是达到不了 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 的。不过后来随着集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的扩充，从源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 出发一定能到达所有的顶点。一会我们讲解例子时会出现这种情况。此时第一个 ![[公式]](https://www.zhihu.com/equation?tex=%5Cbm%7B%5Crm%7Bfor%7D%7D) 循环结束。
+
+![[公式]](https://www.zhihu.com/equation?tex=5%3A) 如果集合 ![[公式]](https://www.zhihu.com/equation?tex=V-S) 不是空集，则进入循环；
+
+![[公式]](https://www.zhihu.com/equation?tex=6%3A) 选出经过第一个 ![[公式]](https://www.zhihu.com/equation?tex=%5Cbm%7B%5Crm%7Bfor%7D%7D) 循环之后的，在集合 ![[公式]](https://www.zhihu.com/equation?tex=V-S) 中的，且相对于集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的最短路径中距离最短的那个顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_j) ;
+
+![[公式]](https://www.zhihu.com/equation?tex=7+%3A) 将这个顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_j) 并入集合 ![[公式]](https://www.zhihu.com/equation?tex=S) ，从而达到扩充集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的目的；
+
+![[公式]](https://www.zhihu.com/equation?tex=8%3A) 将顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 并入集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 之后可能会对其他顶点相对于集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的最短路的长度会有影响，所以进入内 ![[公式]](https://www.zhihu.com/equation?tex=%5Cbm%7B%5Crm%7Bfor%7D%7D) 循环对有影响的进行更新；
+
+![[公式]](https://www.zhihu.com/equation?tex=9%3A) 即如果从源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 到我们在第 ![[公式]](https://www.zhihu.com/equation?tex=6) 步选出的顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_j) 的相对于集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的最短路径的长度再加上顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_j) 到顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 之间的距离 ![[公式]](https://www.zhihu.com/equation?tex=w_%7Bi%2Cj%7D) 还要小于源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 到顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 的相对于集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的最短路径的长度还要短的话；
+
+![[公式]](https://www.zhihu.com/equation?tex=10%3A+) 则将源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 到顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 的相对于集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的最短路径更新成源点 ![[公式]](https://www.zhihu.com/equation?tex=s) 到我们在第 ![[公式]](https://www.zhihu.com/equation?tex=6) 步选出的顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_j) 的相对于集合 ![[公式]](https://www.zhihu.com/equation?tex=S) 的最短路径再加上顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_j) 到顶点 ![[公式]](https://www.zhihu.com/equation?tex=v_i) 之间的权值 ![[公式]](https://www.zhihu.com/equation?tex=w_%7Bi%2Cj%7D) 。

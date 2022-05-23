@@ -49,16 +49,16 @@ namespace bin_tree {
         st.push({false, root});     // need output, node
 
         while (!st.empty()) {
-            auto val = st.top();
+            auto [flag, node] = st.top();
             st.pop();
-            if (val.second == nullptr) continue;
+            if (node == nullptr) continue;
             
-            if (!val.first) {
-                st.push({false, val.second->right});
-                st.push({false, val.second->left});
-                st.push({true, val.second});
+            if (!flag) {
+                st.push({false, node->right});
+                st.push({false, node->left});
+                st.push({true, node});
             } else {
-                ret.push_back(val.second);
+                ret.push_back(node);
             }
         }
 
@@ -73,16 +73,16 @@ namespace bin_tree {
         st.push({false, root});     // need output, node
 
         while (!st.empty()) {
-            auto val = st.top();
+            auto [flag, node] = st.top();
             st.pop();
-            if (val.second == nullptr) continue;
+            if (node == nullptr) continue;
             
-            if (!val.first) {
-                st.push({false, val.second->right});
-                st.push({true, val.second});
-                st.push({false, val.second->left});
+            if (!flag) {
+                st.push({false, node->right});
+                st.push({true, node});
+                st.push({false, node->left});
             } else {
-                ret.push_back(val.second);
+                ret.push_back(node);
             }
         }
 
@@ -97,16 +97,16 @@ namespace bin_tree {
         st.push({false, root});     // need output, node
 
         while (!st.empty()) {
-            auto val = st.top();
+            auto [flag, node] = st.top();
             st.pop();
-            if (val.second == nullptr) continue;
+            if (node == nullptr) continue;
             
-            if (!val.first) {
-                st.push({true, val.second});
-                st.push({false, val.second->right});
-                st.push({false, val.second->left});
+            if (!flag) {
+                st.push({true, node});
+                st.push({false, node->right});
+                st.push({false, node->left});
             } else {
-                ret.push_back(val.second);
+                ret.push_back(node);
             }
         }
 
