@@ -26,6 +26,26 @@ namespace bin_search {
         return -1;
     }
 
-
+    /**
+     * @brief Binary search.
+     * 
+     * @param nums      sorted array.
+     * @param target    target number.
+     * @param lower     find last element lower than target
+     * @return int      target index.
+     */
+    int search(const vector<int>& nums, int target, bool lower) {
+        int left = 0, right = (int)nums.size() - 1, ans = (int)nums.size();
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] > target || (lower && nums[mid] >= target)) {
+                right = mid - 1;
+                ans = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
 
 }

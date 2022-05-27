@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <random>
 
 namespace utils {
     using std::cout;
@@ -40,5 +41,10 @@ namespace utils {
         cout << "[\n";
         for (auto vc : vec) printVec1D<_Tp>(vc, "  [", "],\n");
         cout << "]\n";
+    }
+
+    float frand(float low, float high, unsigned int seed = static_cast<unsigned>(time(0))) {
+        float r = low + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (high-low)));
+        return r;
     }
 }
