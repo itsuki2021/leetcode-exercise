@@ -9,6 +9,11 @@ namespace utils {
     using std::endl;
     using std::vector;
     using std::string;
+    using std::uniform_int_distribution;
+    using std::uniform_real_distribution;
+    using std::default_random_engine;
+    using std::mt19937;
+    using std::random_device;
     
     /**
      * @brief Print 1-dimensional vector.
@@ -43,8 +48,30 @@ namespace utils {
         cout << "]\n";
     }
 
-    float frand(float low, float high, unsigned int seed = static_cast<unsigned>(time(0))) {
-        float r = low + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (high-low)));
-        return r;
-    }
+    template<typename _Tp = int>
+    class RandInt {
+    private:
+        uniform_int_distribution<_Tp>* dis = nullptr;
+        mt19937 gen{random_device{}()};
+    public:
+        RandInt() { dis = new uniform_int_distribution(0, 1); }
+        RandInt(_Tp low, _Tp high) { dis = new uniform_int_distribution(low, high); }
+        ~RandInt() { delete dis; }
+
+        _Tp next() { return (*dis)(gen); }
+    };
+
+    template<typename _Tp = double>
+    class RandReal {
+    private:
+        uniform_real_distribution<_Tp>* dis = nullptr;
+        mt19937 gen{random_device{}()};
+    public:
+        RandReal() { dis = new uniform_real_distribution(0.0, 1.0);}
+        RandReal(_Tp low, _Tp high) { dis = new uniform_real_distribution(low, high); }
+        ~RandReal() { delete dis; }
+
+        _Tp next() { return (*dis)(gen); }
+    };
+
 }

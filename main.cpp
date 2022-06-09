@@ -1,88 +1,61 @@
 #include "utils.hpp"
 #include "tree.h"
 #include "graph.h"
+#include "binary_search.hpp"
 #include <iostream>
 #include <algorithm>
-#include <queue>
 
 using namespace std;
 
 
 class Solution {
+private:
+    vector<double> wts;
+    vector<vector<int>> rects;
 public:
-    int dirs[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-
-    int bfs(vector<vector<int>>& forest, int sx, int sy, int tx, int ty) {
-        if (sx == tx && sy == ty) return 0;
-        int steps = 0, row = forest.size(), col = forest[0].size();
-        queue<pair<int, int>> qu;
-        vector<vector<bool>> visited(row, vector<bool>(col, false));
-        qu.emplace(sx, sy);
-        visited[sx][sy] = true;
-        while (!qu.empty()) {
-            steps++;
-            int sz = qu.size();
-            for (int i = 0; i < sz; ++i) {
-                auto [cx, cy] = qu.front();
-                qu.pop();
-                for (int j = 0; j < 4; ++j) {
-                    int nx = cx + dirs[j][0];
-                    int ny = cy + dirs[j][1];
-                    if (nx < 0 || nx >= row || ny < 0 || ny >= col) continue;
-                    if (visited[nx][ny] || forest[nx][ny] < 1) continue;
-                    if (nx == tx && ny == ty) return steps;
-                    qu.emplace(nx, ny);
-                    visited[nx][ny] = true;
-                }
-            }
+    Solution(vector<vector<int>>& _rects) {
+        rects.assign(_rects.begin(), _rects.end());
+        double acc = 0.0;
+        for (auto rect : rects) {
+            double ai = rect[0], bi = rect[1], xi = rect[2], yi = rect[3];
+            acc += (xi - ai + 1) * (yi - bi + 1);
+            wts.push_back(acc);
         }
 
-        return -1;
+        for (int i = 0; i < wts.size(); ++i) wts[i] /= acc;
     }
-
-    int cutOffTree(vector<vector<int>>& forest) {
-        vector<pair<int, int>> trees;
-        int row = forest.size(), col = forest[0].size();
-        for (int i = 0; i < row; ++i) {
-            for (int j = 0; j < col; ++j) {
-                if (forest[i][j] > 1) trees.emplace_back(i, j);
+    
+    vector<int> pick() {
+        double r = double(rand()) / double(RAND_MAX);
+        for (int i = 0; i < wts.size(); ++i) {
+            if (r <= wts[i]) {
+                double ai = rects[i][0], bi = rects[i][1], xi = rects[i][2], yi = rects[i][3];
+                int x = ai + double(rand()) / double(RAND_MAX) * (xi - ai);
+                int y = bi + double(rand()) / double(RAND_MAX) * (yi - bi);
+                return {x, y};
             }
         }
-        sort(trees.begin(), trees.end(),
-            [&](const pair<int, int>& a, const pair<int, int>& b) {
-                return forest[a.first][a.second] < forest[b.first][b.second];
-            }
-        );
 
-        int cx = 0, cy = 0, ans = 0;
-        for (int i = 0; i < trees.size(); ++i) {
-            int steps = bfs(forest, cx, cy, trees[i].first, trees[i].second);
-            if (steps == -1) return -1;
-
-            ans += steps;
-            cx = trees[i].first;
-            cy = trees[i].second;
-        }
-
-        return ans;
+        return {0, 0};
     }
 };
 
+
 int main() {
-    vector<vector<int>> forest = {
-        {2,3,4},
-        {0,0,5},
-        {8,7,6},
-    };
+    utils::RandReal ri(10.0, 100.0);
+    for (int _ = 0; _ < 10; ++_)
+        cout << ri.next() << endl;
+    
+    
 
-    auto sol = new Solution();
-    auto ans = sol->cutOffTree(forest);
+    // auto sol = new Solution();
+    // auto ans = sol->isBoomerang(points);
 
-    cout << "Answer is:\n";
-    cout << ans << endl;
+    // cout << "Answer is:\n";
+    // cout << ans << endl;
     // utils::printVec1D(ans);
     // utils::printVec2D(ans);
     
-    delete sol;
+    // delete sol;
     return 0;
 }
