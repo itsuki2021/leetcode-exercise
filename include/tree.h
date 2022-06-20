@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <exception>
+#include <set>
 
 
 namespace bin_tree {
@@ -130,4 +131,41 @@ namespace trie {
          */
         bool startsWith(const string& prefix);
     };
+}
+
+
+namespace odt {
+    using std::set;
+
+    class ChthollyTree {
+    using ll = long long;
+    private:    
+        struct ChthollyNode {
+            ll l, r;        // left, right
+            mutable ll v;   // value
+            ChthollyNode(ll l_, ll r_, ll v_) : l(l_), r(r_), v(v_) {}
+            bool operator<(const ChthollyNode &other) const { return l < other.l; }
+        };
+
+        set<ChthollyNode> tree;
+    public:
+        ChthollyTree() {}
+        /**
+         * @brief split chtholly node into two parts
+         * 
+         * @param pos split position
+         * @return the right part after splitting
+         */
+        set<ChthollyNode>::iterator split(ll pos);
+
+        /**
+         * @brief assign node(l, r, v) to tree
+         * 
+         * @param l left
+         * @param r right
+         * @param v value
+         */
+        void assign(ll l, ll r, ll v);
+    };
+
 }

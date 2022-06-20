@@ -245,3 +245,24 @@ namespace trie {
         return true;
     }
 }
+
+namespace odt {
+    ChthollyTree::ChthollyTree() {}
+
+    set<ChthollyTree::ChthollyNode>::iterator ChthollyTree::split(ll pos) {
+        auto it = tree.lower_bound(ChthollyNode(pos, 0, 0));
+        if (it != tree.end() && it->l == pos) return it;
+
+        it--;
+        ll l = it->l, r = it->r, v = it->v;
+        tree.erase(it);
+        tree.insert(ChthollyNode(l, pos - 1, v));
+        return tree.insert(ChthollyNode(pos, r, v)).first;
+    }
+
+    void ChthollyTree::assign(ll l, ll r, ll v) {
+        auto end = split(r + 1), begin = split(l);
+        tree.erase(begin, end);
+        tree.insert(ChthollyNode(l, r, v));
+    }
+}
