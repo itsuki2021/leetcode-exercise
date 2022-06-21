@@ -149,7 +149,7 @@ namespace odt {
 
         set<ChthollyNode> tree;
     public:
-        ChthollyTree() {}
+        ChthollyTree();
         /**
          * @brief split chtholly node into two parts
          * 
