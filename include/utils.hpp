@@ -3,12 +3,15 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <bitset>
+#include <climits>
 
 namespace utils {
     using std::cout;
     using std::endl;
     using std::vector;
     using std::string;
+    using std::bitset;
     using std::uniform_int_distribution;
     using std::uniform_real_distribution;
     using std::default_random_engine;
@@ -46,6 +49,15 @@ namespace utils {
         cout << "[\n";
         for (auto vc : vec) printVec1D<_Tp>(vc, "  [", "],\n");
         cout << "]\n";
+    }
+
+    inline void printBin(int x) {
+        cout << bitset<sizeof(x) * 8>(x) << endl;
+        
+    }
+
+    inline void printHex(int x) {
+        cout << std::hex << x << endl;
     }
 
     template<typename _Tp = int>
