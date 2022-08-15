@@ -328,7 +328,7 @@ int query(Node* node, ll start, ll end, ll l, ll r) {
     if (l <= mid) ans += query(node->left, start, mid, l, r);
     if (r > mid) ans += query(node->right, mid + 1, end, l, r);
 
-    return 0;
+    return ans;
 }
 
 } // namespace seg_tree

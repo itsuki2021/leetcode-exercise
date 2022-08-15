@@ -1,53 +1,97 @@
 #include "utils.hpp"
 #include "tree.h"
-#include "graph.h"
-#include "binary_search.hpp"
 #include <iostream>
 #include <algorithm>
-#include <unordered_set>
-#include <queue>
 
 using namespace std;
 
 
-class Solution {
+class MyCircularDeque {
+private:
+    vector<int> arr;
+    int begin = 0, end = 0;
+    int capacity;
+
 public:
-    int triangleNumber(vector<int>& nums) {
-        int n = nums.size();
-        sort(nums.begin(), nums.end());
+    MyCircularDeque(int k) {
+        capacity = k + 1;
+        arr = vector(capacity, 0);
+    }
+    
+    bool insertFront(int value) {
+        if (isFull()) return false;
 
-        int ans = 0;
-        for (int i = 0; i < n; ++i) {
-            for (int j = i - 1; j >= 0; --j) {
-                int l = 0, r = j - 1;
-                while (l < r) {
-                    int mid = (l + r) / 2;
-                    if (nums[mid] > nums[i] - nums[j]) r = mid;
-                    else l = mid + 1;
-                }
+        begin = (begin - 1 + capacity) % capacity;
+        arr[begin] = value;
+        return true;
+    }
+    
+    bool insertLast(int value) {
+        if (isFull()) return false;
 
-                if (l == r && nums[r] + nums[j] > nums[i]) ans += j - r;
-            }
-        }
+        arr[end] = value;
+        end = (end + 1) % capacity;
+        return true;
+    }
+    
+    bool deleteFront() {
+        if (isEmpty()) return false;
 
-        return ans;
+        begin = (begin + 1) % capacity;
+        return true;
+    }
+    
+    bool deleteLast() {
+        if (isEmpty()) return false;
+
+        end = (end - 1 + capacity) % capacity;
+        return true;
+    }
+    
+    int getFront() {
+        if (isEmpty()) return -1;
+        else return arr[begin];
+    }
+    
+    int getRear() {
+        if (isEmpty()) return -1;
+        else return arr[(end - 1 + capacity) % capacity];
+    }
+    
+    bool isEmpty() {
+        return begin == end;
+    }
+    
+    bool isFull() {
+        return (end + 1) % capacity == begin;
     }
 };
 
 
 int main() {
-    // 3
-    vector<int> nums = {2,2,3,4};
+    // string s = "a0b1c2";
 
-    auto sol = new Solution();
-    auto ans = sol->triangleNumber(nums);
+    // auto sol = new Solution();
+    // auto ans = sol->reformat(s);
 
-    cout << "Answer is:\n";
-    cout << ans << endl;
-    // utils::printVec1D(ans);
-    // utils::printVec2D(ans);
+    // cout << "Answer is:\n";
+    // cout << ans << endl;
+    // // utils::printVec1D(ans);
+    // // utils::printVec2D(ans);
     
     // delete sol;
-   
+    int k = 3;
+
+    MyCircularDeque* obj = new MyCircularDeque(k);
+    cout << obj->insertLast(1) << endl;
+    cout << obj->insertLast(2) << endl;
+    cout << obj->insertFront(3) << endl;
+    cout << obj->insertLast(4) << endl;
+    cout << obj->getRear() << endl;
+    cout << obj->isFull() << endl;
+    cout << obj->deleteLast() << endl;
+    cout << obj->insertFront(4) << endl;
+    cout << obj->getFront() << endl;
+    
     return 0;
 }
