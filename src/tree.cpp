@@ -113,38 +113,20 @@ vector<TreeNode*> postOrderTraversal(TreeNode* const root) {
     return ret;
 }
 
-TreeNode* buildTree(const vector<int>& nums) {
-    if (nums.empty()) return nullptr;
-    
-    deque<TreeNode*> list = {new TreeNode(nums[0])};
-    TreeNode* root = list.front();
-    TreeNode* curNode = nullptr;
-    TreeNode* newNode = nullptr;
-    int i = 1;
-    while (!list.empty()) {
-        curNode = list.front();
-        list.pop_front();
-        if (curNode == nullptr) {
-            // assert both left and right node is nullptr
-            for (int _cnt = 0; _cnt < 2; ++_cnt) {
-                if (i >= nums.size()) break;
-                if (nums[i] != NULL_NODE) throw NodeException();
-                list.push_back(nullptr);
-                i++;
-            }
-        }
-        else {
-            if (i >= nums.size()) break;
-            newNode = nums[i] == NULL_NODE ? nullptr : new TreeNode(nums[i]);
-            curNode->left = newNode;
-            list.push_back(newNode);
-            i++;
+TreeNode* buildTree(const vector<int>& vec) {
+    vector<TreeNode*> vecTree (vec.size(), nullptr);
+    TreeNode* root = nullptr;
+    for (int i = 0; i < vec.size(); i++) {
+        TreeNode* node = nullptr;
+        if (vec[i] != NULL_NODE) node = new TreeNode(vec[i]);
+        vecTree[i] = node;
+        if (i == 0) root = node;
+    }
 
-            if (i >= nums.size()) break;
-            newNode = nums[i] == NULL_NODE ? nullptr : new TreeNode(nums[i]);
-            curNode->right = newNode;
-            list.push_back(newNode);
-            i++;
+    for (int i = 0; i * 2 + 2 < vec.size(); i++) {
+        if (vecTree[i] != nullptr) {
+            vecTree[i]->left = vecTree[i * 2 + 1];
+            vecTree[i]->right = vecTree[i * 2 + 2];
         }
     }
 

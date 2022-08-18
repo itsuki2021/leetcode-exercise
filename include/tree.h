@@ -27,7 +27,7 @@ struct TreeNode {
 class NodeException : public exception {
     virtual const char*
     what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW {
-        return "Invalid node, can not make a non-empty node be the children of a empty node.";
+        return "Invalid node, can not make a non-empty node be the child of a empty node.";
     }
 };
 
@@ -66,10 +66,10 @@ vector<TreeNode*> postOrderTraversal(TreeNode* const root);
 /**
  * @brief Create a Tree object from BFS items.
  * 
- * @param nums BFS items, INT32_MIN in "nums" means null node
+ * @param vec BFS items, INT32_MIN in "vec" means null node
  * @return TreeNode root pointer
  */
-TreeNode* buildTree(const vector<int>& nums);
+TreeNode* buildTree(const vector<int>& vec);
 
 /**
  * @brief Delete a Tree object.

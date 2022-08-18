@@ -54,7 +54,6 @@ void printVec2D(const vector<vector<_Tp>>& vec) {
 
 inline void printBin(int x) {
     cout << bitset<sizeof(x) * 8>(x) << endl;
-    
 }
 
 inline void printHex(int x) {
