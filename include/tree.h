@@ -3,6 +3,7 @@
 #include <iostream>
 #include <exception>
 #include <set>
+#include "utils.hpp"
 
 
 namespace bin_tree {
@@ -64,6 +65,14 @@ vector<TreeNode*> inOrderTraversal(TreeNode* const root);
 vector<TreeNode*> postOrderTraversal(TreeNode* const root);
 
 /**
+ * @brief Get tree height
+ * 
+ * @param root 
+ * @return int 
+ */
+int getHeight(TreeNode* const root);
+
+/**
  * @brief Create a Tree object from BFS items.
  * 
  * @param vec BFS items, INT32_MIN in "vec" means null node
@@ -79,11 +88,12 @@ TreeNode* buildTree(const vector<int>& vec);
 void deleteTree(TreeNode*& root);
 
 /**
- * @brief Print a Tree object.
+ * @brief Print binary tree.
  * 
  * @param root  TreeNode root pointer
  */
 void printTree(TreeNode* const root);
+
 }   // namespace bin_tree
 
 

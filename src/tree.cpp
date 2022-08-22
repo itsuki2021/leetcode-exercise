@@ -113,6 +113,12 @@ vector<TreeNode*> postOrderTraversal(TreeNode* const root) {
     return ret;
 }
 
+int getHeight(TreeNode* const root) {
+    if (root == nullptr) return 0;
+
+    return std::max(getHeight(root->left), getHeight(root->right)) + 1;
+}
+
 TreeNode* buildTree(const vector<int>& vec) {
     vector<TreeNode*> vecTree (vec.size(), nullptr);
     TreeNode* root = nullptr;
@@ -146,37 +152,63 @@ inline void printNTimes(int n, const string& str) {
     for (int i = 0; i < n; ++i) cout << str;
 }
 
-void printTree(TreeNode* const root) {
-        if (root == nullptr) return;
+void printTreeBak(TreeNode* const root) {
+    if (root == nullptr) return;
 
-        vector<TreeNode*> ret = bfs(root);
-        int curDepth = 1;
-        int maxWidth = 2;   // max width of tree
-        while (maxWidth < ret.size() + 1) maxWidth *= 2;
-        maxWidth -= 1;
+    vector<TreeNode*> ret = bfs(root);
+    int curDepth = 1;
+    int maxWidth = 2;   // max width of tree
+    while (maxWidth < ret.size() + 1) maxWidth *= 2;
+    maxWidth -= 1;
 
-        // print tree node
-        printNTimes(maxWidth, "-");
-        cout << endl;
-        printNTimes(maxWidth / int(pow(2, curDepth)), " ");
-        for (int i = 0; i < ret.size(); ++i) {
-            // first node of a layer
-            if (i > pow(2, curDepth) - 2) {
-                curDepth++;
-                cout << endl;
-                printNTimes(maxWidth / int(pow(2, curDepth)), " ");
-            }
-
-            if (ret[i]) cout << ret[i]->val;
-            else cout << " ";
-
-            // interval between nodes
-            printNTimes(maxWidth / int(pow(2, curDepth-1)), " ");
+    // print tree node
+    printNTimes(maxWidth, "-");
+    cout << endl;
+    printNTimes(maxWidth / int(pow(2, curDepth)), " ");
+    for (int i = 0; i < ret.size(); ++i) {
+        // first node of a layer
+        if (i > pow(2, curDepth) - 2) {
+            curDepth++;
+            cout << endl;
+            printNTimes(maxWidth / int(pow(2, curDepth)), " ");
         }
-        cout << endl;
-        printNTimes(maxWidth, "-");
-        cout << endl;
+
+        if (ret[i]) cout << ret[i]->val;
+        else cout << " ";
+
+        // interval between nodes
+        printNTimes(maxWidth / int(pow(2, curDepth-1)), " ");
     }
+    cout << endl;
+    printNTimes(maxWidth, "-");
+    cout << endl;
+}
+
+/**
+ * @brief Fill the 2-D array
+ * 
+ * @param arr       input array
+ * @param node      binary tree node
+ * @param i         column index
+ * @param l         left node index
+ * @param r         right node index
+ */
+void fill(vector<vector<string>>& arr, TreeNode* node, int i, int l, int r) {
+    if (node == nullptr) return;
+
+    arr[i][(l+r)/2] = to_string(node->val);
+    fill(arr, node->left, i + 1, l, (l + r) / 2);
+    fill(arr, node->right, i + 1, (l + r + 1) / 2, r);
+}
+
+void printTree(TreeNode* const root) {
+    int height = getHeight(root);
+    vector<vector<string>> arr(height, vector<string>((1 << height) - 1, ""));
+    fill(arr, root, 0, 0, arr[0].size());
+
+    utils::printVec2D(arr);
+}
+
 }   // namespace bin_tree
 
 
