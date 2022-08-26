@@ -31,7 +31,7 @@ int main() {
     // delete sol;
 
     vector<int> arr = {6, 1, 2, 7, 9, 3, 4, 5, 10, 8};
-    my_sort::quickSort(arr);
+    my_sort::insertSort(arr);
     utils::printVec1D(arr);
 
     return 0;
