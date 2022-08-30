@@ -120,7 +120,7 @@ int getHeight(TreeNode* const root) {
 }
 
 TreeNode* buildTree(const vector<int>& vec) {
-    vector<TreeNode*> vecTree (vec.size(), nullptr);
+    vector<TreeNode*> vecTree (vec.size() % 2 == 0 ? vec.size() + 1 : vec.size(), nullptr);
     TreeNode* root = nullptr;
     for (int i = 0; i < vec.size(); i++) {
         TreeNode* node = nullptr;
@@ -129,7 +129,7 @@ TreeNode* buildTree(const vector<int>& vec) {
         if (i == 0) root = node;
     }
 
-    for (int i = 0; i * 2 + 2 < vec.size(); i++) {
+    for (int i = 0; i * 2 + 2 < vecTree.size(); i++) {
         if (vecTree[i] != nullptr) {
             vecTree[i]->left = vecTree[i * 2 + 1];
             vecTree[i]->right = vecTree[i * 2 + 2];
@@ -203,7 +203,9 @@ void fill(vector<vector<string>>& arr, TreeNode* node, int i, int l, int r) {
 
 void printTree(TreeNode* const root) {
     int height = getHeight(root);
-    vector<vector<string>> arr(height, vector<string>((1 << height) - 1, ""));
+    if (height == 0) return;
+
+    vector<vector<string>> arr(height, vector<string>((1 << height) - 1, " "));
     fill(arr, root, 0, 0, arr[0].size());
 
     utils::printVec2D(arr);

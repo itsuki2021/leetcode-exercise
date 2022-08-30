@@ -1,38 +1,44 @@
 #include "utils.hpp"
-#include "sort.h"
+#include "tree.h"
 #include <iostream>
 #include <algorithm>
 
-
 using namespace std;
+using bin_tree::TreeNode;
 
 
 class Solution {
 public:
-    int maxProduct(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        int n = nums.size();
-        return (nums[n-1] - 1) * (nums[n-2] - 1);
+    TreeNode* insertIntoMaxTree(TreeNode* root, int val) {
+        if (root == nullptr) {
+            return new TreeNode(val);
+        } else if (val > root->val) {
+            return new TreeNode(val, root, nullptr);
+        } else {
+            root->right = insertIntoMaxTree(root->right, val);
+            return root;
+        }
     }
 };
 
 
 int main() {
-    // vector<int> nums = {3, 4, 5, 2};
+    int null = bin_tree::NULL_NODE;
+    vector<int> arr = {5, 2, 4, null, 1};
+    int val = 3;
 
-    // auto sol = new Solution();
-    // auto ans = sol->maxProduct(nums);
+    TreeNode* root = bin_tree::buildTree(arr);
+    bin_tree::printTree(root);
+    auto sol = new Solution();
+    auto ans = sol->insertIntoMaxTree(root, val);
 
-    // cout << "Answer is:\n";
+    cout << "Answer is:\n";
+    bin_tree::printTree(ans);
     // cout << ans << endl;
-    // // utils::printVec1D(ans);
-    // // utils::printVec2D(ans);
+    // utils::printVec1D(ans);
+    // utils::printVec2D(ans);
     
-    // delete sol;
-
-    vector<int> arr = {6, 1, 2, 7, 9, 3, 4, 5, 10, 8};
-    my_sort::insertSort(arr);
-    utils::printVec1D(arr);
+    delete sol;
 
     return 0;
 }
