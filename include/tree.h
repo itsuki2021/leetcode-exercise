@@ -3,6 +3,7 @@
 #include <iostream>
 #include <exception>
 #include <set>
+#include <cassert>
 #include "utils.hpp"
 
 
@@ -181,27 +182,60 @@ public:
 
 
 namespace seg_tree {
-using std::vector;
 using ll = long long;
+using cll = const long long;
 
-class Node {
+class SegTree {
+private:
+    /**
+     * @brief node of segment tree
+     * 
+     */
+    class Node {
+    public:
+        Node *left = nullptr, *right = nullptr;
+        ll sum = 0, lazy = 0;   // sum, lazy mark
+    private:
+        ll _start, _end;    // position
+    
+    public:
+        Node(ll start, ll end) : _start(start), _end(end) {}
+        inline ll start() const { return _start; }
+        inline ll end() const { return _end; }
+        inline ll mid() const { return _start + (_end - _start) / 2; }
+        inline ll len() const { return _end - _start + 1; }
+    };
+    Node* root = nullptr;
+    ll _start, _end;
+
 public:
-    Node *left = nullptr, *right = nullptr;
-    int val = 0;
-    int add = 0;
-    Node() {}
-    Node(int _val) : val(_val) {}
-    Node(int _val, Node *_l, Node *_r) : val(_val), left(_l), right(_r) {}
+    SegTree(ll start, ll end);
+    ~SegTree();
+
+    /**
+     * @brief update the tree node value
+     * 
+     * @param l     left index
+     * @param r     right index
+     * @param val   value add to nodes
+     */
+    void update(cll& l, cll& r, cll& val);
+
+    /**
+     * @brief query the sum
+     * 
+     * @param l     left index
+     * @param r     right index
+     * @return ll
+     */
+    ll query(cll& l, cll& r);
+
+private:
+    void pushUp(Node* node);
+    void pushDown(Node* node);
+    void _update(Node* node, cll& l, cll& r, cll& val);
+    ll _query(Node* node, cll& l, cll& r);
+    void deleteTree(Node* node);
 };
-
-void buildTree(const vector<int>& arr, Node* node, ll start, ll end);
-
-void pushUp(Node *const& node);
-
-void pushDown(Node *const& node, ll leftNum, ll rightNum);
-
-void update(Node* node, ll start, ll end, ll l, ll r, int val);
-
-int query(Node* node, ll start, ll end, ll l, ll r);
 
 }   // namespace seg_tree

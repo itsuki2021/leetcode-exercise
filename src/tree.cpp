@@ -287,64 +287,72 @@ void ChthollyTree::assign(ll l, ll r, ll v) {
 
 namespace seg_tree {
 
-void buildTree(const vector<int>& arr, Node* node, ll start, ll end) {
-    if (start == end) {
-        node->val = arr[start];
+SegTree::SegTree(ll start, ll end) {
+    assert(start <= end);
+    _start = start;
+    _end = end;
+    root = new Node(_start, _end);
+}
+
+SegTree::~SegTree() {
+    deleteTree(root);
+}
+
+void SegTree::update(cll& l, cll& r, cll& val) {
+    assert(_start <= l && l <= r && r <= _end);
+    _update(root, l, r, val);
+}
+
+ll SegTree::query(cll& l, cll& r) {
+    assert(_start <= l && l <= r && r <= _end);
+    return _query(root, l, r);
+}
+
+void SegTree::pushUp(Node* node) {
+    node->sum = node->left->sum + node->right->sum;
+}
+
+void SegTree::pushDown(Node* node) {
+    if (node->left == nullptr) node->left = new Node(node->start(), node->mid());
+    if (node->right == nullptr) node->right = new Node(node->mid() + 1, node->end());
+    if (node->lazy != 0) {
+        node->left->sum += node->lazy * node->left->len();
+        node->right->sum += node->lazy * node->right->len();
+        node->left->lazy += node->lazy;
+        node->right->lazy += node->lazy;
+        node->lazy = 0;
+    }
+}
+
+void SegTree::_update(Node* node, cll& l, cll& r, cll& val) {
+    if (l <= node->start() && node->end() <= r) {
+        node->sum += node->len() * val;
+        node->lazy += val;
         return;
     }
 
-    ll mid = start + (end - start) / 2;
-    node->left = new Node();
-    buildTree(arr, node->left, start, mid);
-    node->right = new Node();
-    buildTree(arr, node->right, mid + 1, end);
-    // push up
+    pushDown(node);
+    if (l <= node->mid()) _update(node->left, l, r, val);
+    if (r > node->mid()) _update(node->right, l, r, val);
     pushUp(node);
 }
 
-void pushUp(Node *const& node) {
-    node->val = node->left->val + node->right->val;
+ll SegTree::_query(Node* node, cll& l, cll& r) {
+    if (l <= node->start() && node->end() <= r) return node->sum;
+    ll sum = 0;
+    pushDown(node);
+    if (l <= node->mid()) sum += _query(node->left, l, r);
+    if (r > node->mid()) sum += _query(node->right, l, r);
+
+    return sum;
 }
 
-void pushDown(Node *const& node, ll leftNum, ll rightNum) {
-    if (node->left == nullptr) node->left = new Node();
-    if (node->right == nullptr) node->right = new Node();
+void SegTree::deleteTree(Node* node) {
+    if (node == nullptr) return;
 
-    if (node->add == 0) return;
-
-    node->left->val += node->add * leftNum;
-    node->right->val += node->add * rightNum;
-
-    node->left->add += node->add;
-    node->right->add += node->add;
-
-    node->add = 0;
-}
-
-void update(Node* node, ll start, ll end, ll l, ll r, int val) {
-    if (l <= start && end <= r) {
-        node->val += (end - start + 1) * val;
-        node->add += val;
-        return;
-    }
-
-    ll mid = start + (end - start) / 2;
-    pushDown(node, mid - start + 1, end - mid);
-    if (l <= mid) update(node->left, start, mid, l, r, val);
-    if (r > mid) update(node->right, mid + 1, end, l, r, val);
-    pushUp(node);
-    
-}
-
-int query(Node* node, ll start, ll end, ll l, ll r) {
-    if (l <= start && end <= r) return node->val;
-    ll mid = start + (end - start) / 2;
-    int ans = 0;
-    pushDown(node, mid - start + 1, end - mid);
-    if (l <= mid) ans += query(node->left, start, mid, l, r);
-    if (r > mid) ans += query(node->right, mid + 1, end, l, r);
-
-    return ans;
+    deleteTree(node->left);
+    deleteTree(node->right);
+    delete node;
 }
 
 } // namespace seg_tree

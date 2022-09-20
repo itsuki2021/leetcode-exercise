@@ -2,43 +2,29 @@
 #include "tree.h"
 #include <iostream>
 #include <algorithm>
+#include <cassert>
 
 using namespace std;
-using bin_tree::TreeNode;
 
 
 class Solution {
 public:
-    TreeNode* insertIntoMaxTree(TreeNode* root, int val) {
-        if (root == nullptr) {
-            return new TreeNode(val);
-        } else if (val > root->val) {
-            return new TreeNode(val, root, nullptr);
-        } else {
-            root->right = insertIntoMaxTree(root->right, val);
-            return root;
-        }
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        return false;
     }
 };
 
 
 int main() {
-    int null = bin_tree::NULL_NODE;
-    vector<int> arr = {5, 2, 4, null, 1};
-    int val = 3;
-
-    TreeNode* root = bin_tree::buildTree(arr);
-    bin_tree::printTree(root);
-    auto sol = new Solution();
-    auto ans = sol->insertIntoMaxTree(root, val);
-
-    cout << "Answer is:\n";
-    bin_tree::printTree(ans);
+    // vector<int> nums = {3522,181,521,515,304,123,2512,312,922,407,146,1932,4037,2646,3871,269};
+    // int k = 5;
+    // auto sol = new Solution();
+    // auto ans = sol->canPartitionKSubsets(nums, k);
+    // cout << "\nAnswer is:\n";
     // cout << ans << endl;
-    // utils::printVec1D(ans);
-    // utils::printVec2D(ans);
-    
-    delete sol;
+    // // utils::printVec1D(ans);
+    // // utils::printVec2D(ans);  
+    // delete sol;
 
     return 0;
 }
