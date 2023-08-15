@@ -1,0 +1,21 @@
+{
+    "configurations": {
+        "solution": {
+            "adapter": "vscode-cpptools",
+            "filetypes": [ "cpp", "c" ],
+            "configuration": {
+                "args": [],
+                "cwd": "${workspaceRoot}",
+                "program": "${workspaceRoot}/build/solution",
+                "request": "launch",
+                "externalConsole": true,
+                "Mimode": "gdb"
+            },
+            "breakpoints": {
+                "exception": {
+                    "all": "N"
+                }
+            }
+        }
+    }
+}
