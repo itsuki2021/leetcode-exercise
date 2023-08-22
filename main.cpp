@@ -6,49 +6,54 @@
 #include "tree.h"
 
 using namespace std;
-using bin_tree::TreeNode;
 using bin_tree::NULL_NODE;
+using bin_tree::TreeNode;
 
-class Solution
-{
+class Solution {
 public:
-    vector<int> argsort(const vector<int>& vec) {
-        vector<int> res;
-        for (int i = 0; i < vec.size(); ++i) res.push_back(i);
-
-        sort(res.begin(), res.end(), 
-            [&](int a, int b) { return vec[a] < vec[b]; });
-
-        return res;
+  vector<vector<int>> ans;
+  vector<int> path;
+  vector<bool> visited;
+  void backTracking(const vector<int> &cdd, const int &target, int sum, int i) {
+    if (sum >= target) {
+      if (sum == target) ans.push_back(path);
+      return;
     }
 
-    string findReplaceString(string s, vector<int> &indices,
-                             vector<string> &sources, vector<string> &targets) {
-        int offset = 0, minInd = 0;
-        for (int i : argsort(indices)) {
-            if (s.substr(indices[i] + offset, sources[i].size()) == sources[i]) {
-                s.replace(indices[i] + offset, sources[i].size(), targets[i]);
-                offset += targets[i].size() - sources[i].size();
-            }
-        }
-
-        return s;
+    for (; i < cdd.size(); ++i) {
+      if (i > 0 && cdd[i] == cdd[i - 1] && visited[i - 1] == false)
+        continue;
+      visited[i] = true;
+      path.push_back(cdd[i]);
+      backTracking(cdd, target, sum + cdd[i], i + 1);
+      visited[i] = false;
+      path.pop_back();
     }
+  }
+
+
+  vector<vector<int>> combinationSum2(vector<int> &candidates, int target) {
+    ans.clear();
+    path.clear();
+    visited = vector<bool>(candidates.size(), false);
+    sort(candidates.begin(), candidates.end());
+
+    backTracking(candidates, target, 0, 0);
+    return ans;
+  }
 };
 
 int main() {
-    string s = "vmokgggqzp";
-    vector<int> indices = {3, 5, 1};
-    vector<string> sources = {"kg","ggq","mo"};
-    vector<string> target = {"s","so","bfr"};
+  vector<int> candidates = {10, 1, 2, 7, 6, 1, 5};
+  int target = 8;
 
-    auto sol = new Solution();
-    auto ans = sol->findReplaceString(s, indices, sources, target);
-    cout << "\nAnswer is:\n";
-    cout << ans << endl;
-    // utils::printVec1D(ans);
-    // utils::printVec2D(ans);
-    delete sol;
+  auto sol = new Solution();
+  auto ans = sol->combinationSum2(candidates, target);
+  cout << "\nAnswer is:\n";
+  // cout << ans << endl;
+  // utils::printVec1D(ans);
+  utils::printVec2D(ans);
+  delete sol;
 
-    return 0;
+  return 0;
 }

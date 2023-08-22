@@ -10,11 +10,10 @@ using std::vector;
 
 class KMP {
 public:
-    static int search(const string& haystack, const string& needle);
+  static int search(const string &haystack, const string &needle);
+
 private:
-    static vector<int> getNext(const string s);
+  static vector<int> getNext(const string s);
 };
 
-
-
-};  // namespace kmp
+}; // namespace kmp

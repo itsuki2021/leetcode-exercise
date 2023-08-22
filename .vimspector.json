@@ -1,21 +1,24 @@
 {
     "configurations": {
         "solution": {
-            "adapter": "vscode-cpptools",
-            "filetypes": [ "cpp", "c" ],
+            "adapter": "CodeLLDB",
+            "breakpoints": {
+                "exception": {
+                    "cpp_catch": "Y",
+                    "cpp_throw": "Y"
+                }
+            },
             "configuration": {
                 "args": [],
                 "cwd": "${workspaceRoot}",
-                "program": "${workspaceRoot}/build/solution",
-                "request": "launch",
                 "externalConsole": true,
-                "Mimode": "gdb"
+                "program": "${workspaceRoot}/build/solution",
+                "request": "launch"
             },
-            "breakpoints": {
-                "exception": {
-                    "all": "N"
-                }
-            }
+            "filetypes": [
+                "cpp",
+                "c"
+            ]
         }
     }
 }
