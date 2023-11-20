@@ -3,6 +3,7 @@ project(solution)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+SET(CMAKE_BUILD_TYPE Debug)
 
 # include
 include_directories(${PROJECT_SOURCE_DIR}/include/)
