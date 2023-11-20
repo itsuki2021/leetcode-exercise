@@ -2,13 +2,11 @@ cmake_minimum_required(VERSION 3.16)
 project(solution)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # include
-include_directories(
-    ${PROJECT_SOURCE_DIR}/include/
-)
-# link
-# link_directories()
+include_directories(${PROJECT_SOURCE_DIR}/include/)
+# link link_directories()
 
 file(GLOB_RECURSE CUSTOM_SRC_FILE src/*.cpp)
 add_library(custom SHARED ${CUSTOM_SRC_FILE})
