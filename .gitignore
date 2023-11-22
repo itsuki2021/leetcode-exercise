@@ -34,3 +34,6 @@
 # VScode
 .vscode/
 build/
+
+# lspsaga
+.cache/
