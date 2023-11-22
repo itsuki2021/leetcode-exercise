@@ -6,26 +6,42 @@
 #include "utils.hpp"
 
 using namespace std;
-using bin_tree::NULL_NODE;
-using bin_tree::TreeNode;
 
 class Solution {
   public:
-    vector<int> foo(vector<int> nums) {
-        nums.push_back(0);
-        return nums;
+    using Vec1D = vector<bool>;
+    using Vec2D = vector<Vec1D>;
+
+    int countSubstrings(string s) {
+        int n = s.size();
+        Vec2D dp(n, Vec1D(n));
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            dp[i][i] = true;
+            ans += 1;
+        }
+
+        for (int j = 0; j < n; ++j) {
+            for (int i = 0; i < j; ++i) {
+                if (s[i] == s[j] && (j - i < 2 || dp[i + 1][j - 1])) {
+                    dp[i][j] = true;
+                    ans += 1;
+                }
+            }
+        }
+
+        return ans;
     }
 };
 
 int main() {
-    int target = 8;
-    vector<int> nums = {1, 2, 3, 4};
+    string s = "abc";
 
     auto sol = new Solution();
-    auto ans = sol->foo(nums);
+    auto ans = sol->countSubstrings(s);
     cout << "\nAnswer is:\n";
-    // cout << ans << endl;
-    utils::printVec1D(ans);
+    cout << ans << endl;
+    // utils::printVec1D(ans);
     // utils::printVec2D(ans);
     delete sol;
 
