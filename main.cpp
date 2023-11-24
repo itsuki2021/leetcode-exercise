@@ -1,33 +1,32 @@
 #include <algorithm>
 #include <iostream>
 #include <stack>
+#include <vector>
 
 #include "tree.h"
 #include "utils.hpp"
 
 using namespace std;
 
+// leetcode 42
 class Solution {
   public:
-    using Vec1D = vector<bool>;
-    using Vec2D = vector<Vec1D>;
-
-    int countSubstrings(string s) {
-        int n = s.size();
-        Vec2D dp(n, Vec1D(n));
+    int trap(vector<int> &height) {
+        stack<int> st;
         int ans = 0;
-        for (int i = 0; i < n; ++i) {
-            dp[i][i] = true;
-            ans += 1;
-        }
-
-        for (int j = 0; j < n; ++j) {
-            for (int i = 0; i < j; ++i) {
-                if (s[i] == s[j] && (j - i < 2 || dp[i + 1][j - 1])) {
-                    dp[i][j] = true;
-                    ans += 1;
+        for (int i = 0; i < height.size(); ++i) {
+            if (!st.empty() && height[i] >= height[st.top()]) {
+                int bottom = 0;
+                while (!st.empty()) {
+                    ans += (min(height[i], height[st.top()]) - bottom) *
+                           (i - st.top() - 1);
+                    bottom = min(height[i], height[st.top()]);
+                    if (height[i] < height[st.top()])
+                        break;
+                    st.pop();
                 }
             }
+            st.push(i);
         }
 
         return ans;
@@ -35,10 +34,11 @@ class Solution {
 };
 
 int main() {
-    string s = "abc";
+    // vector<int> height = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+    vector<int> height = {4, 2, 0, 3, 2, 5};
 
     auto sol = new Solution();
-    auto ans = sol->countSubstrings(s);
+    auto ans = sol->trap(height);
     cout << "\nAnswer is:\n";
     cout << ans << endl;
     // utils::printVec1D(ans);
