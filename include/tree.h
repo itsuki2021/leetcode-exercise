@@ -1,10 +1,10 @@
 #pragma once
-#include <vector>
-#include <iostream>
-#include <exception>
-#include <set>
-#include <cassert>
 #include "utils.hpp"
+#include <cassert>
+#include <exception>
+#include <iostream>
+#include <set>
+#include <vector>
 
 namespace bin_tree {
 using std::exception;
@@ -17,19 +17,19 @@ const int NULL_NODE = INT32_MIN; // means null node
  *
  */
 struct TreeNode {
-  int val;
-  TreeNode *left;
-  TreeNode *right;
-  TreeNode() : val(0), left(nullptr), right(nullptr) {}
-  TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-  TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
 class NodeException : public exception {
-  virtual const char *
-  what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW {
-    return "Invalid node, can not make a non-empty node be the child of a empty node.";
-  }
+    virtual const char *
+    what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW {
+        return "Invalid node, can not make a non-empty node be the child of a empty node.";
+    }
 };
 
 /**
@@ -108,37 +108,37 @@ auto constexpr MIN_CHAR = 'a'; // minimum char in charset
  */
 class TrieNode {
 private:
-  TrieNode *children[MAX_CHILD];
-  bool isWord;
+    TrieNode *children[MAX_CHILD];
+    bool isWord;
 
 public:
-  TrieNode();
-  ~TrieNode();
+    TrieNode();
+    ~TrieNode();
 
-  /**
-   * @brief Insert a new word.
-   *
-   * @param word Input word
-   */
-  void insert(const string &word);
+    /**
+     * @brief Insert a new word.
+     *
+     * @param word Input word
+     */
+    void insert(const string &word);
 
-  /**
-   * @brief Search a word in trie tree.
-   *
-   * @param word      Input word
-   * @return true     Find word in tree
-   * @return false    Or not
-   */
-  bool search(const string &word);
+    /**
+     * @brief Search a word in trie tree.
+     *
+     * @param word      Input word
+     * @return true     Find word in tree
+     * @return false    Or not
+     */
+    bool search(const string &word);
 
-  /**
-   * @brief Search a prefix in trie tree.
-   *
-   * @param prefix    Input prefix
-   * @return true     Find prefix in tree
-   * @return false    Or not
-   */
-  bool startsWith(const string &prefix);
+    /**
+     * @brief Search a prefix in trie tree.
+     *
+     * @param prefix    Input prefix
+     * @return true     Find prefix in tree
+     * @return false    Or not
+     */
+    bool startsWith(const string &prefix);
 };
 } // namespace trie
 
@@ -146,36 +146,36 @@ namespace odt {
 using std::set;
 
 class ChthollyTree {
-  using ll = long long;
+    using ll = long long;
 
 private:
-  struct ChthollyNode {
-    ll l, r;      // left, right
-    mutable ll v; // value
-    ChthollyNode(ll l_, ll r_, ll v_) : l(l_), r(r_), v(v_) {}
-    bool operator<(const ChthollyNode &other) const { return l < other.l; }
-  };
+    struct ChthollyNode {
+        ll l, r;      // left, right
+        mutable ll v; // value
+        ChthollyNode(ll l_, ll r_, ll v_) : l(l_), r(r_), v(v_) {}
+        bool operator<(const ChthollyNode &other) const { return l < other.l; }
+    };
 
-  set<ChthollyNode> tree;
+    set<ChthollyNode> tree;
 
 public:
-  ChthollyTree();
-  /**
-   * @brief split chtholly node into two parts
-   *
-   * @param pos split position
-   * @return the right part after splitting
-   */
-  set<ChthollyNode>::iterator split(ll pos);
+    ChthollyTree();
+    /**
+     * @brief split chtholly node into two parts
+     *
+     * @param pos split position
+     * @return the right part after splitting
+     */
+    set<ChthollyNode>::iterator split(ll pos);
 
-  /**
-   * @brief assign node(l, r, v) to tree
-   *
-   * @param l left
-   * @param r right
-   * @param v value
-   */
-  void assign(ll l, ll r, ll v);
+    /**
+     * @brief assign node(l, r, v) to tree
+     *
+     * @param l left
+     * @param r right
+     * @param v value
+     */
+    void assign(ll l, ll r, ll v);
 };
 } // namespace odt
 
@@ -185,55 +185,55 @@ using cll = const long long;
 
 class SegTree {
 private:
-  /**
-   * @brief node of segment tree
-   *
-   */
-  class Node {
-  public:
-    Node *left = nullptr, *right = nullptr;
-    ll sum = 0, lazy = 0; // sum, lazy mark
-  private:
-    ll _start, _end; // position
+    /**
+     * @brief node of segment tree
+     *
+     */
+    class Node {
+    public:
+        Node *left = nullptr, *right = nullptr;
+        ll sum = 0, lazy = 0; // sum, lazy mark
+    private:
+        ll _start, _end; // position
 
-  public:
-    Node(ll start, ll end) : _start(start), _end(end) {}
-    inline ll start() const { return _start; }
-    inline ll end() const { return _end; }
-    inline ll mid() const { return _start + (_end - _start) / 2; }
-    inline ll len() const { return _end - _start + 1; }
-  };
-  Node *root = nullptr;
-  ll _start, _end;
+    public:
+        Node(ll start, ll end) : _start(start), _end(end) {}
+        inline ll start() const { return _start; }
+        inline ll end() const { return _end; }
+        inline ll mid() const { return _start + (_end - _start) / 2; }
+        inline ll len() const { return _end - _start + 1; }
+    };
+    Node *root = nullptr;
+    ll _start, _end;
 
 public:
-  SegTree(ll start, ll end);
-  ~SegTree();
+    SegTree(ll start, ll end);
+    ~SegTree();
 
-  /**
-   * @brief update the tree node value
-   *
-   * @param l     left index
-   * @param r     right index
-   * @param val   value add to nodes
-   */
-  void update(cll &l, cll &r, cll &val);
+    /**
+     * @brief update the tree node value
+     *
+     * @param l     left index
+     * @param r     right index
+     * @param val   value add to nodes
+     */
+    void update(cll &l, cll &r, cll &val);
 
-  /**
-   * @brief query the sum
-   *
-   * @param l     left index
-   * @param r     right index
-   * @return ll
-   */
-  ll query(cll &l, cll &r);
+    /**
+     * @brief query the sum
+     *
+     * @param l     left index
+     * @param r     right index
+     * @return ll
+     */
+    ll query(cll &l, cll &r);
 
 private:
-  void pushUp(Node *node);
-  void pushDown(Node *node);
-  void _update(Node *node, cll &l, cll &r, cll &val);
-  ll _query(Node *node, cll &l, cll &r);
-  void deleteTree(Node *node);
+    void pushUp(Node *node);
+    void pushDown(Node *node);
+    void _update(Node *node, cll &l, cll &r, cll &val);
+    ll _query(Node *node, cll &l, cll &r);
+    void deleteTree(Node *node);
 };
 
 } // namespace seg_tree

@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <iostream>
-#include <stack>
 #include <vector>
 
 #include "tree.h"
@@ -8,37 +7,46 @@
 
 using namespace std;
 
-// leetcode 42
 class Solution {
-  public:
-    int trap(vector<int> &height) {
-        stack<int> st;
-        int ans = 0;
-        for (int i = 0; i < height.size(); ++i) {
-            if (!st.empty() && height[i] >= height[st.top()]) {
-                int bottom = 0;
-                while (!st.empty()) {
-                    ans += (min(height[i], height[st.top()]) - bottom) *
-                           (i - st.top() - 1);
-                    bottom = min(height[i], height[st.top()]);
-                    if (height[i] < height[st.top()])
-                        break;
-                    st.pop();
-                }
-            }
-            st.push(i);
+public:
+    bool closeStrings(string word1, string word2) {
+        if (word1.size() != word2.size())
+            return false;
+
+        int n = word1.size();
+        int cnt1[26] = {}, cnt2[26] = {};
+        for (int i = 0; i < n; ++i) {
+            cnt1[word1[i] - 'a']++;
+            cnt2[word2[i] - 'a']++;
         }
 
-        return ans;
+        vector<int> v1, v2;
+        for (int i = 0; i < 26; ++i) {
+            if (cnt1[i] == 0 && cnt2[i] == 0) {
+                continue;
+            } else if (cnt1[i] != 0 && cnt2[i] != 0) {
+                v1.push_back(cnt1[i]);
+                v2.push_back(cnt2[i]);
+            } else {
+                return false;
+            }
+        }
+
+        sort(v1.begin(), v1.end());
+        sort(v2.begin(), v2.end());
+        for (int i = 0; i < v1.size(); ++i)
+            if (v1[i] != v2[i])
+                return false;
+
+        return true;
     }
 };
 
 int main() {
-    // vector<int> height = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
-    vector<int> height = {4, 2, 0, 3, 2, 5};
+    string word1 = "cabbba", word2 = "abbccc";
 
     auto sol = new Solution();
-    auto ans = sol->trap(height);
+    auto ans = sol->closeStrings(word1, word2);
     cout << "\nAnswer is:\n";
     cout << ans << endl;
     // utils::printVec1D(ans);

@@ -12,22 +12,22 @@ using std::vector;
  * @return int      -1 if not found else target index.
  */
 int search(const vector<int> &nums, int target) {
-  int n = nums.size();
-  if (target < nums[0] || target > nums[n - 1])
+    int n = nums.size();
+    if (target < nums[0] || target > nums[n - 1])
+        return -1;
+
+    int le = 0, ri = n - 1;
+    while (le <= ri) {
+        int mid = le + (ri - le) / 2;
+        if (nums[mid] > target)
+            ri = mid - 1;
+        else if (nums[mid] < target)
+            le = mid + 1;
+        else
+            return mid;
+    }
+
     return -1;
-
-  int le = 0, ri = n - 1;
-  while (le <= ri) {
-    int mid = le + (ri - le) / 2;
-    if (nums[mid] > target)
-      ri = mid - 1;
-    else if (nums[mid] < target)
-      le = mid + 1;
-    else
-      return mid;
-  }
-
-  return -1;
 }
 
 /**
@@ -39,18 +39,17 @@ int search(const vector<int> &nums, int target) {
  * @return int      index.
  */
 int search_lower(const vector<int> nums, int target) {
-  int l = 0, r = nums.size() - 1, ans = -1;
-  while (l <= r) {
-    int mid = l + (r - l) / 2;
-    if (nums[mid] >= target) {
-      r = mid - 1;
-      ans = mid;
+    int l = 0, r = nums.size() - 1, ans = -1;
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if (nums[mid] >= target) {
+            r = mid - 1;
+            ans = mid;
+        } else
+            l = mid + 1;
     }
-    else
-      l = mid + 1;
-  }
 
-  return ans;
+    return ans;
 }
 
 /**
@@ -62,17 +61,16 @@ int search_lower(const vector<int> nums, int target) {
  * @return int      index.
  */
 int search_upper(const vector<int> nums, int target) {
-  int l = 0, r = nums.size() - 1, ans = -1;
-  while (l <= r) {
-    int mid = l + (r - l) / 2;
-    if (nums[mid] <= target) {
-      l = mid + 1;
-      ans = mid;
+    int l = 0, r = nums.size() - 1, ans = -1;
+    while (l <= r) {
+        int mid = l + (r - l) / 2;
+        if (nums[mid] <= target) {
+            l = mid + 1;
+            ans = mid;
+        } else
+            r = mid - 1;
     }
-    else
-      r = mid - 1;
-  }
 
-  return ans;
+    return ans;
 }
 } // namespace bin_search
