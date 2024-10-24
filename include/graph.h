@@ -13,4 +13,4 @@ using std::vector;
  */
 vector<int> dijkstra(const vector<vector<int>> &graph, int s);
 
-}
+} // namespace graph

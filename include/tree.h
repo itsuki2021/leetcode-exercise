@@ -22,13 +22,14 @@ struct TreeNode {
     TreeNode *right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right)
+        : val(x), left(left), right(right) {}
 };
 
 class NodeException : public exception {
-    virtual const char *
-    what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW {
-        return "Invalid node, can not make a non-empty node be the child of a empty node.";
+    virtual const char *what() const _GLIBCXX_TXN_SAFE_DYN _GLIBCXX_NOTHROW {
+        return "Invalid node, can not make a non-empty node be the child of a "
+               "empty node.";
     }
 };
 
@@ -107,11 +108,11 @@ auto constexpr MIN_CHAR = 'a'; // minimum char in charset
  *
  */
 class TrieNode {
-private:
+  private:
     TrieNode *children[MAX_CHILD];
     bool isWord;
 
-public:
+  public:
     TrieNode();
     ~TrieNode();
 
@@ -148,7 +149,7 @@ using std::set;
 class ChthollyTree {
     using ll = long long;
 
-private:
+  private:
     struct ChthollyNode {
         ll l, r;      // left, right
         mutable ll v; // value
@@ -158,7 +159,7 @@ private:
 
     set<ChthollyNode> tree;
 
-public:
+  public:
     ChthollyTree();
     /**
      * @brief split chtholly node into two parts
@@ -184,19 +185,19 @@ using ll = long long;
 using cll = const long long;
 
 class SegTree {
-private:
+  private:
     /**
      * @brief node of segment tree
      *
      */
     class Node {
-    public:
+      public:
         Node *left = nullptr, *right = nullptr;
         ll sum = 0, lazy = 0; // sum, lazy mark
-    private:
+      private:
         ll _start, _end; // position
 
-    public:
+      public:
         Node(ll start, ll end) : _start(start), _end(end) {}
         inline ll start() const { return _start; }
         inline ll end() const { return _end; }
@@ -206,7 +207,7 @@ private:
     Node *root = nullptr;
     ll _start, _end;
 
-public:
+  public:
     SegTree(ll start, ll end);
     ~SegTree();
 
@@ -228,7 +229,7 @@ public:
      */
     ll query(cll &l, cll &r);
 
-private:
+  private:
     void pushUp(Node *node);
     void pushDown(Node *node);
     void _update(Node *node, cll &l, cll &r, cll &val);

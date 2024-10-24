@@ -40,7 +40,5 @@ void _quickSort(vector<int> &arr, int low, int high) {
     }
 }
 
-void quickSort(vector<int> &arr) {
-    return _quickSort(arr, 0, arr.size() - 1);
-}
-} // namespace sort
+void quickSort(vector<int> &arr) { return _quickSort(arr, 0, arr.size() - 1); }
+} // namespace my_sort

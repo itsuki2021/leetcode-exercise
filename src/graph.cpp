@@ -41,7 +41,8 @@ vector<int> dijkstra(const vector<vector<int>> &graph, int s) {
         for (int i = 0; i < n; ++i) {
             if (S[i] || graph[j][i] == -1)
                 continue;
-            distTo[i] = min(distTo[i] == -1 ? INT32_MAX : distTo[i], distTo[j] + graph[j][i]);
+            distTo[i] = min(distTo[i] == -1 ? INT32_MAX : distTo[i],
+                            distTo[j] + graph[j][i]);
         }
     }
 

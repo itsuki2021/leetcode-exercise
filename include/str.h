@@ -9,10 +9,10 @@ using std::string;
 using std::vector;
 
 class KMP {
-public:
+  public:
     static int search(const string &haystack, const string &needle);
 
-private:
+  private:
     static vector<int> getNext(const string s);
 };
 

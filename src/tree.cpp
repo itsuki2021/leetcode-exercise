@@ -127,7 +127,8 @@ int getHeight(TreeNode *const root) {
 }
 
 TreeNode *buildTree(const vector<int> &vec) {
-    vector<TreeNode *> vecTree(vec.size() % 2 == 0 ? vec.size() + 1 : vec.size(), nullptr);
+    vector<TreeNode *> vecTree(
+        vec.size() % 2 == 0 ? vec.size() + 1 : vec.size(), nullptr);
     TreeNode *root = nullptr;
     for (int i = 0; i < vec.size(); i++) {
         TreeNode *node = nullptr;
@@ -311,9 +312,7 @@ SegTree::SegTree(ll start, ll end) {
     root = new Node(_start, _end);
 }
 
-SegTree::~SegTree() {
-    deleteTree(root);
-}
+SegTree::~SegTree() { deleteTree(root); }
 
 void SegTree::update(cll &l, cll &r, cll &val) {
     assert(_start <= l && l <= r && r <= _end);

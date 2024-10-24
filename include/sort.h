@@ -8,4 +8,4 @@ void insertSort(vector<int> &arr);
 
 void quickSort(vector<int> &arr);
 
-} // namespace sort
+} // namespace my_sort
