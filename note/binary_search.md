@@ -168,7 +168,7 @@ class Solution {
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         left, right = 0, len(nums) - 1
-      
+
         while left <= right:
             middle = (left + right) // 2
 
@@ -337,7 +337,7 @@ func search(nums: [Int], target: Int) -> Int {
         } else if target > nums[middle] {
             // 当目标在区间右侧，就需要更新左边的边界值，新区间为[middle + 1, right]
             left = middle + 1
-        } else { 
+        } else {
             // 当目标就是在中间，则返回中间值的下标
             return middle
         }
@@ -346,7 +346,7 @@ func search(nums: [Int], target: Int) -> Int {
     // 如果找不到目标，则返回-1
     return -1
 }
-  
+
 // （版本二）左闭右开区间
 func search(nums: [Int], target: Int) -> Int {
     var left = 0
@@ -427,11 +427,11 @@ int search(int* nums, int numsSize, int target){
         //此时target可能会在[left,middle-1]区间中
         if(nums[middle] > target) {
             right = middle-1;
-        } 
+        }
         //此时target可能会在[middle+1,right]区间中
         else if(nums[middle] < target) {
             left = middle+1;
-        } 
+        }
         //当前下标元素等于target值时，返回middle
         else if(nums[middle] == target){
             return middle;

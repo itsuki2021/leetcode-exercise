@@ -306,7 +306,7 @@ class MyCalendar {
     public MyCalendar() {
 
     }
-    
+
     public boolean book(int start, int end) {
         // 先查询该区间是否为 0
         if (query(root, 0, N, start, end - 1) != 0) return false;
@@ -370,7 +370,7 @@ class MyCalendarTwo {
     public MyCalendarTwo() {
 
     }
-    
+
     public boolean book(int start, int end) {
         if (query(root, 0, N, start, end - 1) == 2) return false;
         update(root, 0, N, start, end - 1, 1);
@@ -432,7 +432,7 @@ class MyCalendarThree {
     public MyCalendarThree() {
 
     }
-    
+
     public int book(int start, int end) {
         // 只用到了 update
         update(root, 0, N, start, end - 1, 1);
@@ -495,16 +495,16 @@ class RangeModule {
     public RangeModule() {
 
     }
-    
+
     public void addRange(int left, int right) {
         // 1 表示覆盖；-1 表示取消覆盖
         update(root, 1, N, left, right - 1, 1);
     }
-    
+
     public boolean queryRange(int left, int right) {
         return query(root, 1, N, left, right - 1);
     }
-    
+
     public void removeRange(int left, int right) {
         // 1 表示覆盖；-1 表示取消覆盖
         update(root, 1, N, left, right - 1, -1);
@@ -579,11 +579,11 @@ class NumArray {
         this.add = new int[n << 2];
         buildTree(0, n - 1, 1);
     }
-    
+
     public void update(int index, int val) {
         update(0, n - 1, 1, index, val);
     }
-    
+
     public int sumRange(int left, int right) {
         return query(0, n - 1, left, right, 1);
     }
@@ -669,11 +669,11 @@ class NumArray {
             update(root, 0, N, i, i, nums[i]);
         }
     }
-    
+
     public void update(int index, int val) {
         update(root, 0, N, index, index, val);
     }
-    
+
     public int sumRange(int left, int right) {
         return query(root, 0, N, left, right);
     }
@@ -732,7 +732,7 @@ class RecentCounter {
     public RecentCounter() {
 
     }
-    
+
     public int ping(int t) {
         update(root, 1, N, t, t, 1);
         return query(root, 1, N, Math.max(0, t - 3000), t);
@@ -792,7 +792,7 @@ class RecentCounter {
     public RecentCounter() {
         deque = new ArrayDeque<>();
     }
-    
+
     public int ping(int t) {
         int past = t - 3000;
         deque.addLast(t);
