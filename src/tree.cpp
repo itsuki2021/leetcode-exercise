@@ -1,6 +1,7 @@
 #include "tree.h"
 #include <deque>
 #include <math.h>
+#include <queue>
 #include <stack>
 #include <string>
 
@@ -10,6 +11,7 @@ using std::cout;
 using std::deque;
 using std::endl;
 using std::pair;
+using std::queue;
 using std::stack;
 using std::string;
 using std::to_string;
@@ -126,24 +128,33 @@ int getHeight(TreeNode *const root) {
     return std::max(getHeight(root->left), getHeight(root->right)) + 1;
 }
 
-TreeNode *buildTree(const vector<int> &vec) {
-    vector<TreeNode *> vecTree(
-        vec.size() % 2 == 0 ? vec.size() + 1 : vec.size(), nullptr);
-    TreeNode *root = nullptr;
-    for (int i = 0; i < vec.size(); i++) {
-        TreeNode *node = nullptr;
-        if (vec[i] != NULL_NODE)
-            node = new TreeNode(vec[i]);
-        vecTree[i] = node;
-        if (i == 0)
-            root = node;
-    }
+TreeNode *buildTree(const vector<int> &nums) {
+    if (nums.empty())
+        return nullptr;
 
-    for (int i = 0; i * 2 + 2 < vecTree.size(); i++) {
-        if (vecTree[i] != nullptr) {
-            vecTree[i]->left = vecTree[i * 2 + 1];
-            vecTree[i]->right = vecTree[i * 2 + 2];
+    // create root node
+    TreeNode *root = new TreeNode(nums[0]);
+    queue<TreeNode *> q;
+    q.push(root);
+
+    int i = 1; // begin with second node
+    while (!q.empty() && i < nums.size()) {
+        TreeNode *current = q.front();
+        q.pop();
+
+        // deal with left child
+        if (i < nums.size() && nums[i] != NULL_NODE) {
+            current->left = new TreeNode(nums[i]);
+            q.push(current->left);
         }
+        i++;
+
+        // deal with right child
+        if (i < nums.size() && nums[i] != NULL_NODE) {
+            current->right = new TreeNode(nums[i]);
+            q.push(current->right);
+        }
+        i++;
     }
 
     return root;
@@ -162,42 +173,6 @@ void deleteTree(TreeNode *&root) {
 inline void printNTimes(int n, const string &str) {
     for (int i = 0; i < n; ++i)
         cout << str;
-}
-
-void printTreeBak(TreeNode *const root) {
-    if (root == nullptr)
-        return;
-
-    vector<TreeNode *> ret = bfs(root);
-    int curDepth = 1;
-    int maxWidth = 2; // max width of tree
-    while (maxWidth < ret.size() + 1)
-        maxWidth *= 2;
-    maxWidth -= 1;
-
-    // print tree node
-    printNTimes(maxWidth, "-");
-    cout << endl;
-    printNTimes(maxWidth / int(pow(2, curDepth)), " ");
-    for (int i = 0; i < ret.size(); ++i) {
-        // first node of a layer
-        if (i > pow(2, curDepth) - 2) {
-            curDepth++;
-            cout << endl;
-            printNTimes(maxWidth / int(pow(2, curDepth)), " ");
-        }
-
-        if (ret[i])
-            cout << ret[i]->val;
-        else
-            cout << " ";
-
-        // interval between nodes
-        printNTimes(maxWidth / int(pow(2, curDepth - 1)), " ");
-    }
-    cout << endl;
-    printNTimes(maxWidth, "-");
-    cout << endl;
 }
 
 /**

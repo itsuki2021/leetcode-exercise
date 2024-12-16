@@ -79,7 +79,7 @@ int getHeight(TreeNode *const root);
  * @param vec BFS items, INT32_MIN in "vec" means null node
  * @return TreeNode root pointer
  */
-TreeNode *buildTree(const vector<int> &vec);
+TreeNode *buildTree(const vector<int> &nums);
 
 /**
  * @brief Delete a Tree object.
