@@ -1,56 +1,55 @@
-#include <iostream>
-
-#include "list.h"
 #include "utils.hpp"
+#include <algorithm>
+#include <iostream>
+#include <set>
+#include <stack>
+#include <unordered_map>
 
 using namespace std;
 
-using my_list::initList;
-using my_list::ListNode;
-using my_list::printList;
-
 class Solution {
   public:
-    ListNode *removeElements(ListNode *head, int val) {
-        if (head == nullptr) {
-            return head;
-        }
+    int eraseOverlapIntervals(vector<vector<int>> &intervals) {
+        sort(intervals.begin(), intervals.end(),
+             [](vector<int> &a, vector<int> &b) { return a[1] < b[1]; });
 
-        ListNode *pre = nullptr;
-        ListNode *cur = head;
-
-        while (cur != nullptr) {
-            if (cur->val == val) {
-                if (pre == nullptr) {
-                    head = cur->next;
-                    cur = head;
-                } else {
-                    pre->next = cur->next;
-                    cur = cur->next;
-                }
+        int ans = 0;
+        int last_end = intervals[0][1];
+        for (int i = 1; i < intervals.size(); i++) {
+            if (intervals[i][0] >= last_end) {
+                last_end = intervals[i][1];
             } else {
-                pre = cur;
-                cur = cur->next;
+                ans++;
             }
         }
 
-        return head;
+        return ans;
     }
 };
 
 int main() {
-    ListNode *head = initList({6, 3, 4, 5, 6});
-    int val = 6;
+    int n = 10;
+    int MIN_VALUE = -5e4, MAX_VALUE = 5e4;
+    int seed = 2025;
+    vector<vector<int>> intervals;
+    for (int i = 0; i < n; i++) {
+        vector<int> interval;
+        interval.push_back(
+            utils::generateRandomInt(MIN_VALUE, MAX_VALUE, seed++));
+        interval.push_back(
+            utils::generateRandomInt(interval[0], MAX_VALUE, seed++));
+        intervals.push_back(interval);
+    }
+    cout << "\nInput:\n";
+    utils::print2DVector(intervals);
 
     auto sol = new Solution();
-    auto ans = sol->removeElements(head, val);
+    auto ans = sol->eraseOverlapIntervals(intervals);
 
     cout << "\nAnswer is:\n";
-    printList(ans);
-    // cout << ans << endl;
-    // utils::printVec1D(ans);
-    // utils::printVec2D(ans);
-
+    cout << ans << endl;
+    // utils::printVector(ans);
+    // utils::print2DVector(ans);
     delete sol;
 
     return 0;

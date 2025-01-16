@@ -201,7 +201,7 @@ void printTree(TreeNode *const root) {
     vector<vector<string>> arr(height, vector<string>((1 << height) - 1, " "));
     fill(arr, root, 0, 0, arr[0].size());
 
-    utils::printVec2D(arr);
+    utils::print2DVector(arr);
 }
 } // namespace bin_tree
 

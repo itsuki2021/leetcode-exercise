@@ -1,110 +1,52 @@
 #pragma once
-#include <bitset>
-#include <climits>
 #include <iostream>
 #include <random>
 #include <string>
 #include <vector>
 
 namespace utils {
-using std::bitset;
-using std::cout;
-using std::default_random_engine;
-using std::endl;
-using std::mt19937;
-using std::random_device;
-using std::string;
-using std::swap;
-using std::uniform_int_distribution;
-using std::uniform_real_distribution;
-using std::vector;
 
-/**
- * @brief Print 1-dimensional vector.
- *
- * @tparam _Tp      Type of vector element
- * @param vec       Input 1D vector
- * @param prefix    prefix string
- * @param suffix    suffix string
- */
-template <typename _Tp>
-void printVec1D(const vector<_Tp> &vec, string prefix = "[",
-                string suffix = "]\n") {
-    cout << prefix;
-    if (vec.empty()) {
-        cout << suffix;
-        return;
+// 打印一维 vector
+template <typename T> void printVector(const std::vector<T> &vec) {
+    std::cout << "[";
+    for (size_t i = 0; i < vec.size(); ++i) {
+        std::cout << vec[i];
+        if (i < vec.size() - 1) {
+            std::cout << ", ";
+        }
     }
-
-    for (auto v : vec)
-        cout << v << ", ";
-    cout << "\b\b" << suffix;
+    std::cout << "]" << std::endl;
 }
 
-/**
- * @brief Print 2-dimensional vector.
- *
- * @tparam _Tp  Type of vector element.
- * @param vec   Input 2D vector
- */
-template <typename _Tp> void printVec2D(const vector<vector<_Tp>> &vec) {
-    cout << "[\n";
-    for (auto vc : vec)
-        printVec1D<_Tp>(vc, "  [", "],\n");
-    cout << "]\n";
+// 打印二维 vector
+template <typename T>
+void print2DVector(const std::vector<std::vector<T>> &vec2D) {
+    for (const auto &row : vec2D) {
+        std::cout << "  ";
+        printVector(row);
+    }
 }
 
-inline void printBin(int x) { cout << bitset<sizeof(x) * 8>(x) << endl; }
-
-inline void printHex(int x) { cout << std::hex << x << endl; }
-
-template <typename _Tp = int> class RandInt {
-  private:
-    uniform_int_distribution<_Tp> *dis = nullptr;
-    mt19937 gen{random_device{}()};
-
-  public:
-    RandInt() { dis = new uniform_int_distribution(0, 1); }
-    RandInt(_Tp low, _Tp high) {
-        dis = new uniform_int_distribution(low, high);
+// 生成指定范围内的随机整数
+int generateRandomInt(int min, int max, unsigned int seed = 0) {
+    if (seed == 0) {
+        std::random_device rd; // 用于获取随机种子
+        seed = rd();
     }
-    ~RandInt() { delete dis; }
-
-    _Tp next() { return (*dis)(gen); }
-};
-
-template <typename _Tp = double> class RandReal {
-  private:
-    uniform_real_distribution<_Tp> *dis = nullptr;
-    mt19937 gen{random_device{}()};
-
-  public:
-    RandReal() { dis = new uniform_real_distribution(0.0, 1.0); }
-    RandReal(_Tp low, _Tp high) {
-        dis = new uniform_real_distribution(low, high);
-    }
-    ~RandReal() { delete dis; }
-
-    _Tp next() { return (*dis)(gen); }
-};
-
-/// Greatest common divisor
-int getGCD(int a, int b) {
-    if (a < 0)
-        a = -a;
-    if (b < 0)
-        b = -b;
-    if (a < b)
-        swap(a, b);
-    if (b == 0)
-        return a;
-
-    while (b) {
-        int tmp = b;
-        b = a % b;
-        a = tmp;
-    }
-
-    return a;
+    std::mt19937 gen(seed); // 使用固定的或随机种子
+    std::uniform_int_distribution<> dis(min, max);
+    return dis(gen);
 }
+
+// 生成指定范围内的随机浮点数
+double generateRandomDouble(double min, double max, unsigned int seed = 0) {
+    if (seed == 0) {
+        std::random_device rd; // 用于获取随机种子
+        seed = rd();
+    }
+    std::mt19937 gen(seed); // 使用固定的或随机种子
+    std::uniform_real_distribution<> dis(min, max);
+    return dis(gen);
+}
+
 } // namespace utils
